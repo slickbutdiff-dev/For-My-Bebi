@@ -1,15 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Scrolling Text Centered</title>
-  <style>
-    html, body {
-      height: 100%;
-      margin: 0;
-      font-family: Arial, sans-serif;
-      overflow: hidden;
-    }
 
     body {
       background-image: url('https://media.giphy.com/media/3ohA2ZD9EkeK2AyfdK/giphy.gif');
