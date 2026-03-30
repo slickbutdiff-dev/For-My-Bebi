@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -54,26 +53,8 @@
       position: fixed;
       z-index: 10;
     }
-    #yesBtn {
-      background-color: pink;
-      left: 45%;
-      top: 70%;
-    }
-    #noBtn {
-      background-color: lightgray;
-      left: 55%;
-      top: 70%;
-    }
-    .heart {
-      position: absolute;
-      color: red;
-      font-size: 24px;
-      animation: floatUp 3s linear forwards;
-    }
-    @keyframes floatUp {
-      0% { transform: translateY(0) scale(1); opacity: 1; }
-      100% { transform: translateY(-200px) scale(1.5); opacity: 0; }
-    }
+    #yesBtn { background-color: pink; left: 45%; top: 70%; }
+    #noBtn { background-color: lightgray; left: 55%; top: 70%; }
     #sadMessage, #sadMessage2 {
       position: fixed;
       left: 50%;
@@ -106,66 +87,72 @@
   <div id="sadMessage2">Dali na pooo! ☹️</div>
 
   <script>
-    const yesBtn = document.getElementById("yesBtn");
-    const noBtn = document.getElementById("noBtn");
-    const text = document.getElementById("scrollText");
-    const sadMessage = document.getElementById("sadMessage");
-    const sadMessage2 = document.getElementById("sadMessage2");
+    document.addEventListener("DOMContentLoaded", function() {
+      const yesBtn = document.getElementById("yesBtn");
+      const noBtn = document.getElementById("noBtn");
+      const text = document.getElementById("scrollText");
+      const sadMessage = document.getElementById("sadMessage");
+      const sadMessage2 = document.getElementById("sadMessage2");
 
-    let noHoverCount = 0;
-    let noClickCount = 0;
+      let noHoverCount = 0;
+      let noClickCount = 0;
 
-    // Move No button randomly
-    function moveNoButton() {
-      const yesRect = yesBtn.getBoundingClientRect();
-      let x, y;
-      do {
-        x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-        y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 50);
-      } while (
-        x + noBtn.offsetWidth > yesRect.left &&
-        x < yesRect.right &&
-        y + noBtn.offsetHeight > yesRect.top &&
-        y < yesRect.bottom
-      );
-      noBtn.style.left = x + "px";
-      noBtn.style.top = y + "px";
-    }
+      function moveNoButton() {
+        const yesRect = yesBtn.getBoundingClientRect();
+        const btnWidth = noBtn.offsetWidth;
+        const btnHeight = noBtn.offsetHeight;
+        const padding = 20;
 
-    function handleNo() {
-      noHoverCount++;
-      const total = noHoverCount + noClickCount;
+        let x = Math.random() * (window.innerWidth - btnWidth - padding*2) + padding;
+        let y = Math.random() * (window.innerHeight - btnHeight - padding*2) + padding;
 
-      if (total >= 3 && total < 6) {
-        sadMessage.style.display = "block";
-        sadMessage.style.fontSize = "2em";
-      } else if (total >= 6) {
-        sadMessage.style.display = "block";
-        sadMessage.style.fontSize = (2 + (total - 6) * 0.3) + "em";
-        sadMessage2.style.display = "block";
-        sadMessage2.style.fontSize = (2 + (total - 6) * 0.3) + "em";
+        if (
+          x + btnWidth > yesRect.left &&
+          x < yesRect.right &&
+          y + btnHeight > yesRect.top &&
+          y < yesRect.bottom
+        ) {
+          x = (x + btnWidth + 50) % (window.innerWidth - btnWidth - padding);
+          y = (y + btnHeight + 50) % (window.innerHeight - btnHeight - padding);
+        }
+
+        noBtn.style.left = x + "px";
+        noBtn.style.top = y + "px";
       }
 
-      // Limit scroll text repetition
-      const maxRepeats = 10;
-      const baseText = "Bati Na Tayo Please &nbsp;&nbsp;&nbsp;";
-      const repeats = text.innerHTML.split(baseText).length - 1;
-      if (repeats < maxRepeats) text.innerHTML += baseText;
+      function handleNo() {
+        noHoverCount++;
+        const total = noHoverCount + noClickCount;
 
-      moveNoButton();
-    }
+        if (total >= 3 && total < 6) {
+          sadMessage.style.display = "block";
+          sadMessage.style.fontSize = "2em";
+        } else if (total >= 6) {
+          sadMessage.style.display = "block";
+          sadMessage.style.fontSize = (2 + (total - 6) * 0.3) + "em";
+          sadMessage2.style.display = "block";
+          sadMessage2.style.fontSize = (2 + (total - 6) * 0.3) + "em";
+        }
 
-    noBtn.addEventListener("mouseover", handleNo);
-    noBtn.addEventListener("click", () => { noClickCount++; handleNo(); });
+        const maxRepeats = 10;
+        const baseText = "Bati Na Tayo Please &nbsp;&nbsp;&nbsp;";
+        const repeats = text.innerHTML.split(baseText).length - 1;
+        if (repeats < maxRepeats) text.innerHTML += baseText;
 
-    yesBtn.addEventListener("click", () => {
-      sadMessage.style.display = "none";
-      sadMessage2.style.display = "none";
-      text.innerHTML = "YESYESYES!! I LOVE YOU SO MUCH BEBII!! &nbsp;&nbsp;&nbsp;YESYESYES!! I LOVE YOU SO MUCH BEBII!! &nbsp;&nbsp;&nbsp;YESYESYES!! I LOVE YOU SO MUCH BEBII!!";
-      document.body.style.backgroundImage = "url('https://media.tenor.com/j3MVp-l8upYAAAAM/luvyou-love.gif')";
+        moveNoButton();
+      }
+
+      noBtn.addEventListener("mouseover", handleNo);
+      noBtn.addEventListener("click", () => { noClickCount++; handleNo(); });
+
+      yesBtn.addEventListener("click", () => {
+        sadMessage.style.display = "none";
+        sadMessage2.style.display = "none";
+        text.innerHTML = "YESYESYES!! I LOVE YOU SO MUCH BEBII!! &nbsp;&nbsp;&nbsp;YESYESYES!! I LOVE YOU SO MUCH BEBII!! &nbsp;&nbsp;&nbsp;YESYESYES!! I LOVE YOU SO MUCH BEBII!!";
+        document.body.style.backgroundImage = "url('https://media.tenor.com/j3MVp-l8upYAAAAM/luvyou-love.gif')";
+      });
     });
   </script>
 
 </body>
 </html>
-
